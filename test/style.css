@@ -13,15 +13,7 @@
     hsl(var(--hue), 95%, 84%)
   );
 }
-#load {
-  position: fixed;
-  display: block;
-  z-index: 9999;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-}
+
 * {
   margin: 0;
   padding: 0;
