@@ -1,6 +1,23 @@
 <!DOCTYPE html>
 <html lang="en" >
-<head>
+<div style="
+	position: fixed;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 9999;
+	background: url('https://i.ibb.co/CHMWNrB/load00.gif') 50% 50% no-repeat white;
+" id="loading"></div>
+   <script>var i = setInterval(function () {
+    clearInterval(i);
+
+    // The desired code is only this:
+    document.getElementById("loading").style.display = "none";
+    document.getElementById("carreg").style.display = "grid";
+   
+}, 2000);</script>
+  <head>
   <meta charset="UTF-8">
 <!-- HTML Meta Tags -->
 <title>Projeto alta conversão - Matias</title>
@@ -31,7 +48,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"><link rel="stylesheet" href="./style.css">
 
 </head>
-<body>
+
+<body id="carreg">
   
 <!-- partial:index.partial.html -->
 <!-- Canvas -->
