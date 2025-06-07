@@ -3,24 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <title>matIAs - a melhor IA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <style>
     body {
       background-color: #f2f2f2;
       font-family: Arial, sans-serif;
-      padding: 20px;
+      padding: 10px 15px;
+      margin: 0;
     }
     #chat {
       background: #ffffff;
       max-width: 600px;
+      width: 100%;
       margin: auto;
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       height: 500px;
       overflow-y: auto;
+      box-sizing: border-box;
     }
     .mensagem {
       margin: 10px 0;
+      word-wrap: break-word;
     }
     .user {
       color: #0066ff;
@@ -32,7 +37,9 @@
     #entrada {
       display: flex;
       max-width: 600px;
+      width: 100%;
       margin: 20px auto 0 auto;
+      box-sizing: border-box;
     }
     #mensagem {
       flex: 1;
@@ -40,6 +47,9 @@
       border: 1px solid #ccc;
       border-radius: 8px 0 0 8px;
       outline: none;
+      font-size: 16px;
+      box-sizing: border-box;
+      min-width: 0; /* importante para flexbox em mobile */
     }
     #enviar {
       padding: 10px 20px;
@@ -48,9 +58,33 @@
       border: none;
       border-radius: 0 8px 8px 0;
       cursor: pointer;
+      font-size: 16px;
+      flex-shrink: 0;
     }
     #enviar:hover {
       background-color: #0050cc;
+    }
+
+    /* Ajustes para telas pequenas */
+    @media (max-width: 480px) {
+      body {
+        padding: 10px 10px;
+      }
+      #chat {
+        height: 400px;
+        padding: 15px;
+      }
+      #entrada {
+        margin: 15px auto 0 auto;
+      }
+      #mensagem {
+        font-size: 14px;
+        padding: 8px;
+      }
+      #enviar {
+        padding: 8px 15px;
+        font-size: 14px;
+      }
     }
   </style>
 </head>
