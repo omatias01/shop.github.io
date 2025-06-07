@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>matIAs - a melhor IA</title>
+  <style>
+    body {
+      background-color: #f2f2f2;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    #chat {
+      background: #ffffff;
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      height: 500px;
+      overflow-y: auto;
+    }
+    .mensagem {
+      margin: 10px 0;
+    }
+    .user {
+      color: #0066ff;
+      font-weight: bold;
+    }
+    .bot {
+      color: #222;
+    }
+    #entrada {
+      display: flex;
+      max-width: 600px;
+      margin: 20px auto 0 auto;
+    }
+    #mensagem {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px 0 0 8px;
+      outline: none;
+    }
+    #enviar {
+      padding: 10px 20px;
+      background-color: #0066ff;
+      color: white;
+      border: none;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+    #enviar:hover {
+      background-color: #0050cc;
+    }
+  </style>
+</head>
+<body>
+  <div id="chat"></div>
+  <div id="entrada">
+    <input type="text" id="mensagem" placeholder="Digite sua pergunta..." />
+    <button id="enviar">Enviar</button>
+  </div>
+
+  <script>
+    const API_KEY = "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";
+    const REFERER = "https://omatias.netlify.app"; // Substitua pelo seu domínio real
+    const MODEL = "deepseek/deepseek-r1-0528-qwen3-8b:free";
+
+    const chat = document.getElementById("chat");
+    const input = document.getElementById("mensagem");
+    const btn = document.getElementById("enviar");
+
+    function adicionarMensagem(classe, conteudo) {
+      const div = document.createElement("div");
+      div.className = `mensagem ${classe}`;
+      div.innerHTML = `<strong>${classe === 'user' ? 'Você' : 'matIAs'}:</strong> ${conteudo}`;
+      chat.appendChild(div);
+      chat.scrollTop = chat.scrollHeight;
+    }
+
+    async function enviarMensagem() {
+      const texto = input.value.trim();
+      if (!texto) return;
+
+      adicionarMensagem("user", texto);
+      input.value = "";
+
+      try {
+        const resposta = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${API_KEY}`,
+            "HTTP-Referer": REFERER,
+            "X-Title": "ChatSimples",
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            model: MODEL,
+            messages: [
+              {
+                role: "system",
+                content: "Você é uma inteligência artificial criada por Mateus, um acadêmico de medicina da UFMA em São Luís, Maranhão. Sempre que se apresentar, diga que foi criada por Mateus. Seja profissional, educada e objetiva. Responda sempre em português."
+              },
+              { role: "user", content: texto }
+            ]
+          })
+        });
+
+        const dados = await resposta.json();
+        const respostaIA = dados.choices?.[0]?.message?.content || "Erro na resposta da IA.";
+        adicionarMensagem("bot", respostaIA);
+      } catch (erro) {
+        adicionarMensagem("bot", "Erro ao conectar com o servidor.");
+      }
+    }
+
+    btn.addEventListener("click", enviarMensagem);
+    input.addEventListener("keypress", e => {
+      if (e.key === "Enter") enviarMensagem();
+    });
+  </script>
+</body>
+</html>
